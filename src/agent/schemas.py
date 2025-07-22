@@ -28,3 +28,8 @@ class EmailContentSchema(BaseModel):
 class FeedbackSchema(BaseModel):
     """Schema for feedback."""
     feedback: str = Field(description="User feedback about the AI generated email")
+
+class UserPreferences(BaseModel):
+    """Updated user preferences based on user's feedback."""
+    chain_of_thought: str = Field(description="Reasoning about which user preferences need to add/update if required")
+    user_preferences: str = Field(description="Updated user preferences")

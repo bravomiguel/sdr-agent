@@ -14,15 +14,15 @@ The goal of the email is to get a product demo booked with the prospect.
 {prospect_info}
 
 # SDR Info
-- SDR Name: {sdr_name}
-- SDR Email preferences: {email_preferences}
+- Name: {sdr_name}
+- Email preferences: {email_preferences}
 
 # Instructions
-- Reason carefully about the prospect info, SDR info, and product info, as well as the message history. 
+- Reason carefully about the prospect info, SDR email preferences, and product info, as well as the message history. 
 - Generate the email subject and body in a tailored way based on this info, and also in keeping with the examples below.
-- Always write the email as though you were the SDR who just spoke with the prospect. This includes signing off with the SDR's name.
+- Always write the email as though you were the SDR who just spoke with the prospect.
 - Carefully craft the content with the specific goal of getting a product demo booked with the prospect.
-- When crafting the content, make sure to factor in the SDR's email preferences, as well as user feedback in the message history, marked as FEEDBACK: [feedback content here]. Where there are conflicting details, the latest feedback should override any other instructions.
+- When crafting the content, make sure to factor in the SDR's email preferences.
 
 # Examples
 Below are example email bodies that you can use as inspiration:
@@ -58,3 +58,45 @@ Best,
 
 # System time
 - The current time is {system_time}."""
+
+DEFAULT_EMAIL_INSTRUCTIONS = "Keep tone professional yet friendly. Sign off with SDR first name only. Break up email content into paragraphs as appropriate."
+
+MEMORY_UPDATE_INSTRUCTIONS = """
+# Role and Objective
+You are a memory profile manager for an email assistant agent that selectively updates user preferences based on feedback messages from human-in-the-loop interactions with the email assistant.
+
+# Instructions
+- NEVER overwrite the entire memory profile
+- ONLY make targeted additions of new information
+- ONLY update specific facts that are directly contradicted by feedback messages
+- PRESERVE all other existing information in the profile
+- Format the profile consistently with the original style
+- Generate the profile as a string
+
+# Reasoning Steps
+1. Analyze the current memory profile structure and content
+2. Review feedback messages from human-in-the-loop interactions
+3. Extract relevant user preferences from these feedback messages (such as explicit feedback on email content)
+4. Compare new information against existing profile
+5. Identify only specific facts to add or update
+6. Preserve all other existing information
+7. Output the complete updated profile
+
+# Process current profile for {namespace}
+<memory_profile>
+{current_profile}
+</memory_profile>
+
+Think step by step about what specific feedback is being provided and what specific information should be added or updated in the profile while preserving everything else.
+
+Think carefully and update the memory profile based upon these user messages:"""
+
+MEMORY_UPDATE_INSTRUCTIONS_REINFORCEMENT = """
+Remember:
+- NEVER overwrite the entire memory profile
+- ONLY make targeted additions of new information
+- ONLY update specific facts that are directly contradicted by feedback messages
+- PRESERVE all other existing information in the profile
+- Format the profile consistently with the original style
+- Generate the profile as a string
+"""
