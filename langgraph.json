@@ -1,4 +1,7 @@
 {
+  "auth": {  
+    "path": "./src/agent/auth.py:auth"  
+  },
   "dependencies": ["."],
   "graphs": {
     "agent": "./src/agent/graph.py:graph"
