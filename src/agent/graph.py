@@ -17,38 +17,38 @@ from typing import Literal
 from agent.utils import extract_interrupt_payload
 
 # Initialize LLM
-# llm = init_chat_model("openai:gpt-4o-mini", temperature=0.0)
-llm = init_chat_model("groq:llama-3.3-70b-versatile", temperature=0.0)
-llm_router = llm.with_structured_output(EmailContentSchema)
+# llm = init_chat_model("groq:llama-3.3-70b-versatile", temperature=0.0)
+# llm_router = llm.with_structured_output(EmailContentSchema)
 
 # Define nodes
 
 
 def generate_email(state: State, config: RunnableConfig):
     """Use llm to generate email content."""
-    prospect_info = state.prospect_info
-    sdr_name = 'Walt Boxwell'
-    email_preferences = 'Keep tone professional yet friendly'
-    feedback = state.feedback
+    configuration = Configuration.from_runnable_config(config)
+    # user_id = configuration.user_id
+    user_name = configuration.user_name
 
-    messages = state.messages
+    email_preferences = 'Keep tone professional yet friendly'
 
     system_message = {"role": "system", "content": SYSTEM_PROMPT.format(
-        prospect_info=prospect_info,
-        sdr_name=sdr_name,
+        prospect_info=state.prospect_info,
+        sdr_name=user_name,
         email_preferences=email_preferences,
         system_time=datetime.now().isoformat()
     )}
 
     user_messages = []
-    if feedback:
+    if state.feedback:
         user_messages.append({
-            "role": "user", "content": f"FEEDBACK: {feedback}"})
+            "role": "user", "content": f"FEEDBACK: {state.feedback}"})
 
     user_messages.append(
         {"role": "user", "content": "Generate email subject and body."})
 
-    result = llm_router.invoke([system_message] + messages + user_messages)
+    model = init_chat_model(
+        configuration.model, temperature=0.0).with_structured_output(EmailContentSchema)
+    result = model.invoke([system_message] + state.messages + user_messages)
 
     ai_message = {
         "role": "ai", "content": f"Subject: {result.subject}\n\n Email body: {result.body}"}
