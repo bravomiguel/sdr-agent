@@ -28,7 +28,8 @@ class Configuration:
 
     model: Annotated[str, {"__template_metadata__": {"kind": "llm"}}] = field(
         # default="groq:llama-3.3-70b-versatile",
-        default="openai:gpt-4o-mini",
+        # default="openai:gpt-4o-mini",
+        default="openai:gpt-4.1",
         metadata={
             "description": "The name of the language model to use for the agent's main interactions. "
             "Should be in the form: provider:model-name."
