@@ -70,7 +70,7 @@ def update_memory(store, namespace, messages, model, api_key):
 
     # Update the memory
     llm = init_chat_model(
-        model, api_key=api_key, temperature=0.0).with_structured_output(UserPreferences)
+        model, api_key=api_key, temperature=0.0, disable_streaming=True).with_structured_output(UserPreferences)
     result = llm.invoke(
         [
             {"role": "system", "content": MEMORY_UPDATE_INSTRUCTIONS.format(

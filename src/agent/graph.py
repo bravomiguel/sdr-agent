@@ -5,7 +5,7 @@ from agent.configuration import Configuration
 from agent.state import InputState, State
 from datetime import datetime
 from langchain_core.runnables import RunnableConfig
-from agent.prompts import DEFAULT_EMAIL_INSTRUCTIONS, MEMORY_UPDATE_INSTRUCTIONS_REINFORCEMENT, SYSTEM_PROMPT
+from agent.prompts import DEFAULT_EMAIL_INSTRUCTIONS, MEMORY_UPDATE_INSTRUCTIONS_REINFORCEMENT
 from agent.tools import SEND_EMAIL
 from langchain.chat_models import init_chat_model
 from agent.schemas import EmailContentSchema
@@ -24,7 +24,7 @@ def generate_email(state: State, config: RunnableConfig, store: BaseStore):
     email_preferences = get_memory(
         store, ("email_preferences", configuration.user_id), DEFAULT_EMAIL_INSTRUCTIONS)
 
-    system_message = {"role": "system", "content": SYSTEM_PROMPT.format(
+    system_message = {"role": "system", "content": configuration.system_prompt.format(
         prospect_info=state.prospect_info,
         sdr_name=configuration.user_name,
         email_preferences=email_preferences,
