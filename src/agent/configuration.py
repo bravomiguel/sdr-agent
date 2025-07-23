@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field, fields
+import os
 from typing import Annotated, Optional
 
 from langchain_core.runnables import ensure_config
@@ -27,11 +28,18 @@ class Configuration:
     )
 
     model: Annotated[str, {"__template_metadata__": {"kind": "llm"}}] = field(
-        default="groq:llama-3.3-70b-versatile",
-        # default="openai:gpt-4.1",
+        # default="groq:llama-3.3-70b-versatile",
+        default="openai:gpt-4o-mini",
         metadata={
             "description": "The name of the language model to use for the agent's main interactions. "
             "Should be in the form: provider:model-name."
+        },
+    )
+
+    api_key: str = field(
+        default="",
+        metadata={
+            "description": "The API key to use for the agent's main interactions. "
         },
     )
 

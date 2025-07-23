@@ -55,7 +55,7 @@ def get_memory(store, namespace, default_content=None):
     return user_preferences
 
 
-def update_memory(store, namespace, messages, model):
+def update_memory(store, namespace, messages, model, api_key):
     """Update memory profile in the store.
 
     Args:
@@ -70,7 +70,7 @@ def update_memory(store, namespace, messages, model):
 
     # Update the memory
     llm = init_chat_model(
-        model, temperature=0.0).with_structured_output(UserPreferences)
+        model, api_key=api_key, temperature=0.0).with_structured_output(UserPreferences)
     result = llm.invoke(
         [
             {"role": "system", "content": MEMORY_UPDATE_INSTRUCTIONS.format(
